@@ -10,7 +10,7 @@
 # For that, look into the folder 'samples' for an example on how
 # to create a domain on a new inherited image.
 #
-# You can go into 'samples/12.1.3-generic-domain' after building the generic raw image
+# You can go into 'samples/12.2.1-generic-domain' after building the generic raw image
 # and build that image, for example:
 # 
 #   $ cd samples/12c-generic-domain
@@ -18,7 +18,7 @@
 #
 # REQUIRED FILES TO BUILD THIS IMAGE
 # ----------------------------------
-# (1) fmw_12.1.3.0.0_wls.jar
+# (1) fmw_12.2.1.0.0_wls.jar
 #     Download the Generic installer from http://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-for-dev-1703574.html
 #
 # (2) jdk-8u60-linux-x64.rpm
@@ -28,23 +28,21 @@
 # -----------------------
 # Put all downloaded files in the same directory as this Dockerfile
 # Run: 
-#      $ sudo docker build -t oracle/weblogic:12.1.3 . 
+#      $ sudo docker build -t oracle/weblogic:12.2.1 . 
 #
 # Pull base image
 # ---------------
-FROM oraclelinux:7
+FROM oraclelinux:7.0
 
 # Maintainer
 # ----------
-MAINTAINER Bruno Borges <bruno.borges@oracle.com>
+MAINTAINER Monica Riccelli <monica.riccelli@oracle.com>
 
-# Environment variables required for this build (do NOT change)
-# -------------------------------------------------------------
+# Environmen#t variables required for this build (do NOT change)
 ENV JAVA_RPM jdk-8u60-linux-x64.rpm
-ENV WLS_PKG fmw_12.1.3.0.0_wls.jar
+ENV WLS_PKG fmw_12.2.1.0.0_wls.jar
 ENV JAVA_HOME /usr/java/default
 ENV CONFIG_JVM_ARGS -Djava.security.egd=file:/dev/./urandom
-ENV JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom
 
 # Setup required packages (unzip), filesystem, and oracle user
 # ------------------------------------------------------------
@@ -58,7 +56,7 @@ COPY $JAVA_RPM /u01/
 COPY install.file /u01/
 COPY oraInst.loc /u01/
 
-# Install and configure Oracle JDK 8u25
+# Install and configure Oracle JDK 8u60
 # -------------------------------------
 RUN rpm -i /u01/$JAVA_RPM && \ 
     rm /u01/$JAVA_RPM
