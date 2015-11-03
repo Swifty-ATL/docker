@@ -26,65 +26,66 @@ cmo.setPassword(admin_pass)
 
 # Create a JMS Server
 # ===================
-cd('/')
-create('myJMSServer', 'JMSServer')
+#cd('/')
+#create('myJMSServer', 'JMSServer')
 
 # Create a JMS System resource
 # ============================
-cd('/')
-create('myJmsSystemResource', 'JMSSystemResource')
-cd('JMSSystemResource/myJmsSystemResource/JmsResource/NO_NAME_0')
+#cd('/')
+#create('myJmsSystemResource', 'JMSSystemResource')
+#cd('JMSSystemResource/myJmsSystemResource/JmsResource/NO_NAME_0')
 
 # Create a JMS Queue and its subdeployment
 # ========================================
-myq=create('myQueue','Queue')
-myq.setJNDIName('jms/myqueue')
-myq.setSubDeploymentName('myQueueSubDeployment')
+#myq=create('myQueue','Queue')
+#myq.setJNDIName('jms/myqueue')
+#myq.setSubDeploymentName('myQueueSubDeployment')
 
-cd('/')
-cd('JMSSystemResource/myJmsSystemResource')
-create('myQueueSubDeployment', 'SubDeployment')
+#cd('/')
+#cd('JMSSystemResource/myJmsSystemResource')
+#create('myQueueSubDeployment', 'SubDeployment')
 
 # Create and configure a JDBC Data Source, and sets the JDBC user
 # ===============================================================
 # IF YOU WANT TO HAVE A DEFAULT DATA SOURCE CREATED, UNCOMMENT THIS SECTION BEFORE BUILD
 
-# cd('/')
-# create('myDataSource', 'JDBCSystemResource')
-# cd('JDBCSystemResource/myDataSource/JdbcResource/myDataSource')
-# create('myJdbcDriverParams','JDBCDriverParams')
-# cd('JDBCDriverParams/NO_NAME_0')
-# set('DriverName','org.apache.derby.jdbc.ClientDriver')
-# set('URL','jdbc:derby://localhost:1527/db;create=true')
-# set('PasswordEncrypted', 'PBPUBLIC')
-# set('UseXADataSourceInterface', 'false')
-# create('myProps','Properties')
-# cd('Properties/NO_NAME_0')
-# create('user', 'Property')
-# cd('Property/user')
-# cmo.setValue('PBPUBLIC')
+cd('/')
+create('ATGPublishingDS', 'JDBCSystemResource')
+cd('JDBCSystemResource/ATGPublishingDS/JdbcResource/ATGPublishingDS')
+create('ATGPublishingDSParams','JDBCDriverParams')
+cd('JDBCDriverParams/ATG_PUB')
+set('DriverName','oracle.jdbc.xa.client.OracleXADataSource')
+set('URL','jdbc:oracle:thin:@oracledb.cenfyitgwkcr.us-west-2.rds.amazonaws.com:1521:orcl')
+set('PasswordEncrypted', 'ATG_PUB')
+set('UseXADataSourceInterface', 'true')
+create('myProps','Properties')
+cd('Properties/ATG_PUB')
+create('user', 'Property')
+cd('Property/user')
+cmo.setValue('ATG_PUB')
 
-# cd('/JDBCSystemResource/myDataSource/JdbcResource/myDataSource')
-# create('myJdbcDataSourceParams','JDBCDataSourceParams')
-# cd('JDBCDataSourceParams/NO_NAME_0')
-# set('JNDIName', java.lang.String("myDataSource_jndi"))
+cd('/JDBCSystemResource/ATGPublishingDS/JdbcResource/ATGPublishingDS')
+create('ATGPublishingDSParams','JDBCDataSourceParams')
+cd('JDBCDataSourceParams/ATG_PUB')
+set('JNDIName', java.lang.String("ATG_PUB"))
 
-# cd('/JDBCSystemResource/myDataSource/JdbcResource/myDataSource')
-# create('myJdbcConnectionPoolParams','JDBCConnectionPoolParams')
-# cd('JDBCConnectionPoolParams/NO_NAME_0')
-# set('TestTableName','SYSTABLES')
+cd('/JDBCSystemResource/ATGPublishingDS/JdbcResource/ATGPublishingDS')
+create('myJdbcConnectionPoolParams','JDBCConnectionPoolParams')
+cd('JDBCConnectionPoolParams/ATG_PUB')
+set('TestTableName','SYSTABLES')
+set('MaxCapacity','50')
 
 # Target resources to the servers 
 # ===============================
 cd('/')
-assign('JMSServer', 'myJMSServer', 'Target', 'AdminServer')
-assign('JMSSystemResource.SubDeployment', 'myJmsSystemResource.myQueueSubDeployment', 'Target', 'myJMSServer')
-# assign('JDBCSystemResource', 'myDataSource', 'Target', 'AdminServer')
+#assign('JMSServer', 'myJMSServer', 'Target', 'AdminServer')
+#assign('JMSSystemResource.SubDeployment', 'myJmsSystemResource.myQueueSubDeployment', 'Target', 'myJMSServer')
+assign('JDBCSystemResource', 'ATGPublishingDS', 'Target', 'StoreFront')
 
 # Write the domain and close the domain template
 # ==============================================
 setOption('OverwriteDomain', 'true')
-setOption('ServerStartMode','prod')
+setOption('ServerStartMode','dev')
 
 cd('/')
 cd('NMProperties')

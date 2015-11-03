@@ -33,7 +33,7 @@ ENV ADMIN_PASSWORD welcome1
 ENV ADMIN_PORT 8001
 ENV NM_PORT 5556
 ENV MS_PORT 7001
-ENV USER_MEM_ARGS -Xms256m -Xmx512m -XX:MaxPermSize=2048m
+ENV USER_MEM_ARGS -Xms2048m -Xmx4096m -XX:MaxPermSize=1024m
 
 # Add files required to build this image
 COPY container-scripts/* /u01/oracle/
