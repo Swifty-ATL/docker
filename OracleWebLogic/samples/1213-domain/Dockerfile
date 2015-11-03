@@ -21,11 +21,11 @@
 
 # Pull base image
 # ---------------
-FROM oracle/weblogic:12.1.3-dev
+FROM oracle/weblogic:12.1.3
 
 # Maintainer
 # ----------
-MAINTAINER Bruno Borges <bruno.borges@oracle.com>
+MAINTAINER Ryan Swift <ryan.swift@swift-consulting.com>
 
 # WLS Configuration
 # -------------------------------
