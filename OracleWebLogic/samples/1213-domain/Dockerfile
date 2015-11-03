@@ -38,6 +38,9 @@ ENV USER_MEM_ARGS -Xms2048m -Xmx4096m -XX:MaxPermSize=1024m
 # Add files required to build this image
 COPY container-scripts/* /u01/oracle/
 
+# Add atg deployment
+ADD deployments/* /u01/oracle
+
 # Root commands
 USER root
 RUN echo ". /u01/oracle/weblogic/user_projects/domains/base_domain/bin/setDomainEnv.sh" >> /root/.bashrc && \
